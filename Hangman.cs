@@ -25,29 +25,31 @@ namespace Games
         private readonly string _word;
 
 
-        public Hangman(string word, int guesses=DefaultGuesses) : base(guesses)
+        public Hangman(string word, int guesses=DefaultGuesses) 
+            : base("Hangman")
         {
             _word = word;
+            GuessesRemaining = guesses;
             WrongGuesses = new List<char>();
             UncoveredWord = new char[word.Length];
             Array.Fill(UncoveredWord, Underscore);
-            GuessesRemaining = guesses;
         }
-        public Hangman(int guesses) : this(getWord(), guesses) {}
-        public Hangman()            : this(getWord()) {}
+        public Hangman(int guesses) : this(GetWord(), guesses) {}
+        public Hangman()            : this(GetWord()) {}
             
             
         public List<char> WrongGuesses { get; private set; }
         public char[] UncoveredWord    { get; private set; }
         public int GuessesRemaining    { get; private set; }
-        
-        
+
+
         public override void Play()
         {
             while (GuessesRemaining > 0)
             {
+                char guess = GetGuess();
                 Console.WriteLine("");
-                if (Guess())
+                if (Check(guess))
                 {
                     if (UncoveredWord.Contains(Underscore))
                         continue;
@@ -57,23 +59,30 @@ namespace Games
                 --GuessesRemaining;
             }
         }
-        
-        
-        private static string getWord()
+
+        public override void PrintResult()
+        {
+            if (Won)
+                Console.Write("You win! ");
+            else
+                Console.Write("You lose. ");
+            Console.WriteLine($"The word was {_word}.");
+        }
+ 
+       
+        private static string GetWord()
         {
             return Wordbank[Random.Shared.Next(0, Wordbank.Length)];
         }
 
-        private bool Guess()
+        private char GetGuess()
         {
             Console.WriteLine(
-                $"Word: {string.Join(" ", UncoveredWord)}\t\t" +
-                    "Guesses: " + string.Join("", WrongGuesses) + 
-                    new string('*', GuessesRemaining)
+                "Word: " + string.Join(" ", UncoveredWord) +
+                    "\t\tGuesses: " + new string(WrongGuesses.ToArray()) + 
+                    new string('*', GuessesRemaining-1)
             );
-            return Check(
-                Helper.GetChar("Enter a guess: ")
-            );
+            return Helper.GetChar("Enter a guess: ");
         }
 
         private bool Check(char c)
