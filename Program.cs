@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 
 namespace Games
 {
     public class Program
     {
         
-        
+        /*
         public static void Play(Game game)
         {
             Console.WriteLine("Welcome to .");
@@ -14,11 +14,13 @@ namespace Games
                 Console.WriteLine("You win!");
             else
                 Console.WriteLine("You lose.");
-        }
+        }*/
         
         public static void Main(string[] args)
         {
-            Play( );
+            //Play( );
+            Hangman hangman = new Hangman();
+            hangman.Play();
         }
     }
 }

@@ -1,3 +1,4 @@
+/*
 namespace Games
 {
     public class HiLo : Game
@@ -5,3 +6,4 @@ namespace Games
         
     }
 }
+*/

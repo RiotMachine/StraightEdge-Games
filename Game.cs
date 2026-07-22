@@ -2,8 +2,8 @@ namespace Games
 {
     public abstract class Game
     {
-        public readonly int Turns { get; };
-        public bool Won { get; private set; } = false;
+        public int Turns { get; }
+        public bool Won { get; protected set; } = false;
         
         protected Game(int turns) { Turns = turns; }
     

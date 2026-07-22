@@ -1,4 +1,4 @@
-using System.Collections.Generic
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
@@ -13,42 +13,43 @@ namespace Games
             "carrot",
             "cucumber",
             "garlic",
-            "lettuce",             
+            "lettuce",
             "onion",
             "potato",
             "spinach"
         );
         private const char Underscore = '_';
-        public const int DefaultGuesses = 8;        
+        public const int DefaultGuesses = 8;
 
 
         private readonly string _word;
 
 
-        public Game(int guesses, string word=getWord()) : base(guesses)
+        public Hangman(string word, int guesses=DefaultGuesses) : base(guesses)
         {
             _word = word;
-            GuessedLetters = new List<char>;
-            UncoveredWord = new char[word.length];
+            WrongGuesses = new List<char>();
+            UncoveredWord = new char[word.Length];
             Array.Fill(UncoveredWord, Underscore);
             GuessesRemaining = guesses;
         }
-        public Game(string word) : this(DefaultGuesses, word) {}
-        public Game()            : this(DefaultGuesses) {}
+        public Hangman(int guesses) : this(getWord(), guesses) {}
+        public Hangman()            : this(getWord()) {}
             
             
-        public List<char> GuessedLetters { get; private set; }
-        public char[] UncoveredWord      { get; private set; }
-        public int GuessesRemaining      { get; private set; }
+        public List<char> WrongGuesses { get; private set; }
+        public char[] UncoveredWord    { get; private set; }
+        public int GuessesRemaining    { get; private set; }
         
         
         public override void Play()
         {
             while (GuessesRemaining > 0)
             {
+                Console.WriteLine("");
                 if (Guess())
                 {
-                    if (UncoveredWord.Contains(Underline))
+                    if (UncoveredWord.Contains(Underscore))
                         continue;
                     Won = true;
                     break;
@@ -58,29 +59,37 @@ namespace Games
         }
         
         
-        private static string getWord { return Wordbank[Random.Shared.Next(0, Wordbank.Length)]; }        
+        private static string getWord()
+        {
+            return Wordbank[Random.Shared.Next(0, Wordbank.Length)];
+        }
 
         private bool Guess()
         {
             Console.WriteLine(
-                $"Word: {new string(UncoveredWord)}\tGuesses: {new string(GuessedLetters)}"
+                $"Word: {string.Join(" ", UncoveredWord)}\t\t" +
+                    "Guesses: " + string.Join("", WrongGuesses) + 
+                    new string('*', GuessesRemaining)
             );
-            return Check(Helper.GetChar("Enter a guess: "));
+            return Check(
+                Helper.GetChar("Enter a guess: ")
+            );
         }
 
-        private void Check(char c)
+        private bool Check(char c)
         {
+            c = char.ToLower(c);
             bool inWord = false;
             for (int i=0; i < _word.Length; ++i)
             {
-                if (in_word[i] == c)
+                if (_word[i] == c)
                 {
                     inWord = true;
                     UncoveredWord[i] = c;
                 }
             }
             if (!inWord)
-                wrongGuesses.add(c);
+                WrongGuesses.Add(c);
             return inWord;
         }
     }
