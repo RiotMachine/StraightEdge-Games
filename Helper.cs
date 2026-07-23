@@ -1,6 +1,6 @@
 using System;
 
-namespace Games
+namespace StraightEdge
 {
     public class Helper
     {

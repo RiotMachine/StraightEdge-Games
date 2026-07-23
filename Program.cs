@@ -1,6 +1,7 @@
+using StraightEdge.Games;
 using System;
 
-namespace Games
+namespace StraightEdge
 {
     public class Program
     {
@@ -13,7 +14,7 @@ namespace Games
         
         public static void Main(string[] args)
         {
-            Game game = OptionClass.GetOption().Init();
+            Game game = Inventory.GetOption().Init();
             Console.WriteLine("");
             Play(game);
         }
