@@ -5,8 +5,9 @@ namespace StraightEdge.Games
 {
     public abstract class Game
     {
-        public string Name { get; }
-        public bool Won    { get; protected set; }
+        private static readonly ImmutableArray<Option> Options = (
+            Enum.GetValues<Option>().ToImmutableArray()
+        );
         
         protected Game(string name)
         {
@@ -14,24 +15,16 @@ namespace StraightEdge.Games
             Won = false;
         }
 
-        public abstract void PrintWelcome();
-        public abstract void Play();
-        public abstract void PrintResult();
-    }
-
-    static class Inventory
-    {
         internal enum Option
         {
             Hangman,
             HiLo
         }
 
-        internal static readonly ImmutableArray<Option> Options = (
-            Enum.GetValues<Option>().ToImmutableArray()
-        );
+        protected string Name { get; init; }
+        protected bool Won    { get; set; }
 
-        internal static Game Init(this Option o) => o switch
+        internal static Game Init(Option o) => o switch
         {
             Option.Hangman => new Hangman(),
             Option.HiLo    => new HiLo()
@@ -52,5 +45,9 @@ namespace StraightEdge.Games
                     return Options[choice];
             }
         }
+
+        public abstract void PrintWelcome();
+        public abstract void Play();
+        public abstract void PrintResult();
     }
 }

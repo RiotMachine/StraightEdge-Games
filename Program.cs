@@ -14,9 +14,9 @@ namespace StraightEdge
         
         public static void Main(string[] args)
         {
-            Game game = Inventory.GetOption().Init();
+            Game.Option option = Game.GetOption();
             Console.WriteLine("");
-            Play(game);
+            Play(Game.Init(option));
         }
     }
 }
