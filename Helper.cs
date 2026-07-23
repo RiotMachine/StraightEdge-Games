@@ -4,7 +4,7 @@ namespace Games
 {
     public class Helper
     {
-        public static char GetChar(string msg="")
+        public static string GetLine(string msg="")
         {
             string? input;
             while (true)
@@ -16,7 +16,20 @@ namespace Games
                 else
                     break;
             }
-            return input[0];
+            return input;
+        }
+
+        public static char GetChar(string msg="")
+        {
+            return GetLine(msg)[0];
+        }
+
+        public static int GetInt(String msg="")
+        {
+            int x;
+            while (!int.TryParse(GetLine(msg), out x))
+                Console.WriteLine("That is not an integer.");
+            return x;
         }
     }
 }
