@@ -6,7 +6,7 @@ namespace Games
     {
         public static void Play(Game game)
         {
-            Console.WriteLine($"Welcome to {game.Name}.\n");
+            game.PrintWelcome();
             game.Play();
             game.PrintResult();
         }    

@@ -14,6 +14,7 @@ namespace Games
             Won = false;
         }
 
+        public abstract void PrintWelcome();
         public abstract void Play();
         public abstract void PrintResult();
     }
@@ -33,14 +34,14 @@ namespace Games
         internal static Game Init(this Option o) => o switch
         {
             Option.Hangman => new Hangman(),
-            Option.HiLo   => new HiLo()
+            Option.HiLo    => new HiLo()
         };
 
         internal static Option GetOption()
         {
-            Console.WriteLine("Options: ");
+            Console.WriteLine("Options:");
             for(int i=0; i < Options.Length; ++i)
-                Console.WriteLine($"{i+1}: {Options[i].ToString()}");
+                Console.WriteLine($"{i+1}: {Options[i]}");
 
             while (true)
             {

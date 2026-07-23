@@ -25,7 +25,7 @@ namespace Games
         private readonly string _word;
 
 
-        public Hangman(string word, int guesses=DefaultGuesses) 
+        public Hangman(string word, int guesses=DefaultGuesses)
             : base("Hangman")
         {
             _word = word;
@@ -42,6 +42,11 @@ namespace Games
         public char[] UncoveredWord    { get; private set; }
         public int GuessesRemaining    { get; private set; }
 
+
+        public override void PrintWelcome()
+        {
+            Console.WriteLine($"Welcome to {Name}.\n");
+        }
 
         public override void Play()
         {
