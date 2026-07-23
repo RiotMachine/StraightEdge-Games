@@ -1,7 +1,7 @@
 using System.Collections.Immutable;
 using Wordbank = ImmutableArray<string>;
 
-namespace StraightEdge.Library
+namespace StraightEdge.Games.Library
 {
     public static class Dictionary
     {
