@@ -1,4 +1,4 @@
-using StraightEdge.Library;
+using StraightEdge.Games.Library;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -67,7 +67,9 @@ namespace StraightEdge.Games
        
         private static string GetWord()
         {
-            return Wordbank[Random.Shared.Next(0, Wordbank.Length)];
+            Dictionary.Theme theme = Dictionary.PickTheme();
+            Console.WriteLine("");
+            return Dictionary.GetWord(theme);
         }
 
         private char GetGuess()

@@ -1,47 +1,13 @@
+using System.Collections.Frozen;
 using System.Collections.Immutable;
-using Wordbank = ImmutableArray<string>;
 
 namespace StraightEdge.Games.Library
 {
+    using Wordbank = ImmutableArray<string>;
+    using TableOfContents = FrozenDictionary<Dictionary.Theme, ImmutableArray<string>>;
+
     public static class Dictionary
     {
-        public enum Theme
-        {
-            Fruit,
-            Vegetable
-        }
-
-        internal static readonly ImmutableArray<Theme> Themes = (
-            Enum.GetValues<Theme>().ToImmutableArray()
-        );
-
-        internal static Theme GetTheme()
-        {
-            Console.WriteLine("Themes:");
-            for(int i=0; i < Options.Length; ++i)
-                Console.WriteLine($"{i+1}: {Options[i]}");
-
-            while (true)
-            {
-                int choice = Helper.GetInt("Enter a selection: ") - 1;
-                if (choice < 0 || choice >= Options.Length)
-                    Console.WriteLine("Invalid selection.");
-                else
-                    return Themes[choice];
-            }
-        }
-
-        internal static Wordbank GetWordbank(Theme t) =>
-        {
-            Theme.Fruit     => Fruits,
-            Theme.Vegetable => Vegetables
-        };
-
-        public static string GetWord(this Theme t)
-        {
-            return GetWordbank(t)[Random.Shared.Next(w.Length)]
-        }
-
         public static readonly Wordbank Fruits = [
             "apple",
             "avocado",
@@ -65,5 +31,42 @@ namespace StraightEdge.Games.Library
             "potato",
             "spinach"
         ];
+
+        private static readonly TableOfContents TOC = new[] {
+            KeyValuePair.Create(Theme.Fruit, Fruits),
+            KeyValuePair.Create(Theme.Vegetable, Vegetables)
+        }.ToFrozenDictionary();
+
+        private static readonly ImmutableArray<Theme> Themes = (
+            Enum.GetValues<Theme>().ToImmutableArray()
+        );
+
+        internal enum Theme
+        {
+            Fruit,
+            Vegetable
+        }
+
+        internal static string GetWord(Theme t)
+        {
+            Wordbank w = TOC[t];
+            return w[Random.Shared.Next(w.Length)];
+        }
+
+        internal static Theme PickTheme()
+        {
+            Console.WriteLine("Themes:");
+            for (int i=0; i < Themes.Length; ++i)
+                Console.WriteLine($"{i+1}: {Themes[i]}");
+
+            while (true)
+            {
+                int choice = Helper.GetInt("Enter a selection: ") - 1;
+                if (choice < 0 || choice >= Themes.Length)
+                    Console.WriteLine("Invalid selection.");
+                else
+                    return Themes[choice];
+            }
+        }
     }
 }
