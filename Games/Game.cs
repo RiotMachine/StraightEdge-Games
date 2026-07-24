@@ -33,7 +33,7 @@ namespace StraightEdge.Games
         internal static Option GetOption()
         {
             Console.WriteLine("Options:");
-            for(int i=0; i < Options.Length; ++i)
+            for (int i=0; i < Options.Length; ++i)
                 Console.WriteLine($"{i+1}: {Options[i]}");
 
             while (true)
